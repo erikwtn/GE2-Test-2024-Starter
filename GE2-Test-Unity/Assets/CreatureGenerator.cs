@@ -11,18 +11,19 @@ public class CreatureGenerator : MonoBehaviour
     [SerializeField] private float startAngle = 0f;
     [SerializeField] private Vector3 baseSize;
     [SerializeField] private float multiplier = 2f;
+    private float _t = 0;
     
     private void OnDrawGizmos()
     {
-        for (var i = 0; i < length; i++)
-        {
-            var a = Mathf.Sin(startAngle) * frequency * i;
-            var rot = new Quaternion(transform.rotation.x, a, transform.rotation.z, transform.rotation.w);
-            //Debug.Log(t);
-            transform.rotation = rot;
-            var x = transform.position.x + (baseSize.x * multiplier * i);
-            var pos = new Vector3(x, transform.position.y, transform.position.z);
-            Gizmos.DrawCube(pos, baseSize * multiplier);
-        }
+	    for (var i = 0; i < length; i++)
+	    {
+		    var a = Mathf.Sin(_t) * startAngle;
+		    _t += Mathf.PI * Time.deltaTime * frequency;
+		    Debug.Log(a);
+		    var bs = new Vector3(baseSize.x, baseSize.y * a, baseSize.z);
+		    var x = transform.position.x + (baseSize.x * multiplier * i);
+		    var pos = new Vector3(x, transform.position.y, transform.position.z);
+		    Gizmos.DrawCube(pos, bs * multiplier);
+	    }
     }
 }
