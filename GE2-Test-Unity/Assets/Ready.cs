@@ -11,6 +11,7 @@ public class Ready : MonoBehaviour
 	private SpineAnimator _spineAnimator;
 	private void Start()
 	{
+		Time.timeScale = 0;
 		var h = Instantiate(head, transform.position, Quaternion.identity, transform.parent);
 		_spineAnimator = h.GetComponent<SpineAnimator>();
 		
@@ -21,5 +22,17 @@ public class Ready : MonoBehaviour
 			var b = Instantiate(boid, newPos, Quaternion.identity, transform.parent);
 			_spineAnimator.bones[i] = b;
 		}
+	}
+
+	private void Update()
+	{
+		if (!Input.GetKeyDown(KeyCode.P)) return;
+		
+		Time.timeScale = Time.timeScale switch
+		{
+			1 => 0,
+			0 => 1,
+			_ => 1
+		};
 	}
 }
