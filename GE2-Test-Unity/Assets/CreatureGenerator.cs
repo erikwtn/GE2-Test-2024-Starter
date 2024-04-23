@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreatureGenerator : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField] private float length = 10f;
+    [SerializeField] private int length = 10;
     [SerializeField] private float frequency;
     [SerializeField] private float startAngle = 0f;
     [SerializeField] private Vector3 baseSize;
@@ -14,11 +14,15 @@ public class CreatureGenerator : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        baseSize *= multiplier;
-        //start_angle = Mathf.Sin()
         for (var i = 0; i < length; i++)
         {
-            Gizmos.DrawCube(transform.position, baseSize);
+            var a = Mathf.Sin(startAngle) * frequency * i;
+            var rot = new Quaternion(transform.rotation.x, a, transform.rotation.z, transform.rotation.w);
+            //Debug.Log(t);
+            transform.rotation = rot;
+            var x = transform.position.x + (baseSize.x * multiplier * i);
+            var pos = new Vector3(x, transform.position.y, transform.position.z);
+            Gizmos.DrawCube(pos, baseSize * multiplier);
         }
     }
 }
